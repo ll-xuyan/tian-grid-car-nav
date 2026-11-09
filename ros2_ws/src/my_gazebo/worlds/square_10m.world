@@ -1,0 +1,207 @@
+<?xml version="1.0" ?>
+<sdf version="1.6">
+  <!-- 田字格地图：10m 场地，1.5m 过道（十字走廊+外圈走廊），4 个长方体障碍块 -->
+  <!-- 布局(单轴): 墙 | 1.5m走廊 | 2.75m障碍块 | 1.5m中央走廊 | 2.75m障碍块 | 1.5m走廊 | 墙 -->
+  <world name="square_10m">
+
+    <!-- 初始相机：从西南上方俯瞰整个场地 -->
+    <gui fullscreen="0">
+      <camera name="user_camera">
+        <pose>-13 -13 10 0 0.5 0.785</pose>
+      </camera>
+    </gui>
+
+    <!-- 阳光 -->
+    <include>
+      <uri>model://sun</uri>
+    </include>
+
+    <!-- 地面 -->
+    <include>
+      <uri>model://ground_plane</uri>
+    </include>
+
+    <!-- ==================== 外墙 ==================== -->
+
+    <!-- 北墙（内侧面在 y=+5） -->
+    <model name="wall_north">
+      <static>true</static>
+      <pose>0 5.1 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>10.4 0.2 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>10.4 0.2 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.78 1</ambient>
+            <diffuse>0.75 0.75 0.78 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 南墙（内侧面在 y=-5） -->
+    <model name="wall_south">
+      <static>true</static>
+      <pose>0 -5.1 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>10.4 0.2 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>10.4 0.2 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.78 1</ambient>
+            <diffuse>0.75 0.75 0.78 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 东墙（内侧面在 x=+5） -->
+    <model name="wall_east">
+      <static>true</static>
+      <pose>5.1 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>0.2 10.4 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.2 10.4 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.78 1</ambient>
+            <diffuse>0.75 0.75 0.78 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 西墙（内侧面在 x=-5） -->
+    <model name="wall_west">
+      <static>true</static>
+      <pose>-5.1 0 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>0.2 10.4 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>0.2 10.4 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.75 0.75 0.78 1</ambient>
+            <diffuse>0.75 0.75 0.78 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- ==================== 田字格障碍块 ==================== -->
+    <!-- 4 个 2.75m x 2.75m x 1.0m 的长方体，中心距场地中心 2.125m -->
+    <!-- 块与块、块与墙之间留出 1.5m 宽过道，形成"田"字走廊 -->
+
+    <!-- 左下（第三象限）障碍块 -->
+    <model name="obstacle_sw">
+      <static>true</static>
+      <pose>-2.125 -2.125 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.42 0.48 0.58 1</ambient>
+            <diffuse>0.42 0.48 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 右下（第四象限）障碍块 -->
+    <model name="obstacle_se">
+      <static>true</static>
+      <pose>2.125 -2.125 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.42 0.48 0.58 1</ambient>
+            <diffuse>0.42 0.48 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 左上（第二象限）障碍块 -->
+    <model name="obstacle_nw">
+      <static>true</static>
+      <pose>-2.125 2.125 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.42 0.48 0.58 1</ambient>
+            <diffuse>0.42 0.48 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+    <!-- 右上（第一象限）障碍块 -->
+    <model name="obstacle_ne">
+      <static>true</static>
+      <pose>2.125 2.125 0.5 0 0 0</pose>
+      <link name="link">
+        <collision name="collision">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+        </collision>
+        <visual name="visual">
+          <geometry>
+            <box><size>2.75 2.75 1.0</size></box>
+          </geometry>
+          <material>
+            <ambient>0.42 0.48 0.58 1</ambient>
+            <diffuse>0.42 0.48 0.58 1</diffuse>
+          </material>
+        </visual>
+      </link>
+    </model>
+
+  </world>
+</sdf>

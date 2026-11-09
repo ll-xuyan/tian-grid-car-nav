@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<!-- 四轮小车 my_car：后轮驱动 + 前轮随动，顶部 360° 激光雷达 -->
+<!-- 尺寸 0.50m x 0.37m，可通过 1.5m 过道（余量充足） -->
+<robot name="my_car">
+
+  <!-- 地面投影（导航基准点） -->
+  <link name="base_footprint"/>
+  <joint name="base_joint" type="fixed">
+    <parent link="base_footprint"/>
+    <child link="base_link"/>
+    <origin xyz="0 0 0.085" rpy="0 0 0"/>
+  </joint>
+
+  <!-- 车体：0.50 x 0.36 x 0.14 橙色盒子，离地 1.5cm -->
+  <link name="base_link">
+    <visual>
+      <geometry>
+        <box size="0.50 0.36 0.14"/>
+      </geometry>
+      <material name="orange">
+        <color rgba="1.0 0.5 0.1 1.0"/>
+      </material>
+    </visual>
+    <collision>
+      <geometry>
+        <box size="0.50 0.36 0.14"/>
+      </geometry>
+    </collision>
+    <inertial>
+      <mass value="5.0"/>
+      <inertia ixx="0.062" iyy="0.112" izz="0.158" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+
+  <!-- ============ 左前轮（随动） ============ -->
+  <link name="front_left_wheel">
+    <visual>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+      <material name="dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="front_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_left_wheel"/>
+    <origin xyz="0.15 0.185 -0.005" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <!-- 前轮为随动轮：摩擦力极低，可自由滑动 -->
+  <gazebo reference="front_left_wheel">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+  </gazebo>
+
+  <!-- ============ 右前轮（随动） ============ -->
+  <link name="front_right_wheel">
+    <visual>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+      <material name="dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="front_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="front_right_wheel"/>
+    <origin xyz="0.15 -0.185 -0.005" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <gazebo reference="front_right_wheel">
+    <mu1>0.01</mu1>
+    <mu2>0.01</mu2>
+  </gazebo>
+
+  <!-- ============ 左后轮（驱动） ============ -->
+  <link name="rear_left_wheel">
+    <visual>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+      <material name="dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="rear_left_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_left_wheel"/>
+    <origin xyz="-0.15 0.185 -0.005" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <!-- 驱动轮：高摩擦 -->
+  <gazebo reference="rear_left_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <!-- ============ 右后轮（驱动） ============ -->
+  <link name="rear_right_wheel">
+    <visual>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+      <material name="dark"><color rgba="0.15 0.15 0.15 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.08" length="0.04"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.3"/>
+      <inertia ixx="0.0005" iyy="0.0005" izz="0.001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="rear_right_wheel_joint" type="continuous">
+    <parent link="base_link"/>
+    <child link="rear_right_wheel"/>
+    <origin xyz="-0.15 -0.185 -0.005" rpy="-1.5708 0 0"/>
+    <axis xyz="0 0 1"/>
+  </joint>
+  <gazebo reference="rear_right_wheel">
+    <mu1>1.0</mu1>
+    <mu2>1.0</mu2>
+  </gazebo>
+
+  <!-- ============ 顶部激光雷达 ============ -->
+  <link name="laser_link">
+    <visual>
+      <geometry><cylinder radius="0.05" length="0.06"/></geometry>
+      <material name="silver"><color rgba="0.6 0.6 0.65 1.0"/></material>
+    </visual>
+    <collision>
+      <geometry><cylinder radius="0.05" length="0.06"/></geometry>
+    </collision>
+    <inertial>
+      <mass value="0.1"/>
+      <inertia ixx="0.0001" iyy="0.0001" izz="0.0001" ixy="0" ixz="0" iyz="0"/>
+    </inertial>
+  </link>
+  <joint name="laser_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="laser_link"/>
+    <origin xyz="0 0 0.115" rpy="0 0 0"/>
+  </joint>
+  <!-- 防止 Gazebo 把固定关节的雷达合并进车体（保持独立坐标系） -->
+  <gazebo reference="laser_joint">
+    <preserveFixedJoint>true</preserveFixedJoint>
+  </gazebo>
+
+  <!-- 激光雷达传感器（360 线，0.12~10m） -->
+  <gazebo reference="laser_link">
+    <sensor type="ray" name="lidar">
+      <pose>0 0 0 0 0 0</pose>
+      <visualize>true</visualize>
+      <update_rate>10</update_rate>
+      <ray>
+        <scan>
+          <horizontal>
+            <samples>360</samples>
+            <resolution>1</resolution>
+            <min_angle>-3.14159</min_angle>
+            <max_angle>3.14159</max_angle>
+          </horizontal>
+        </scan>
+        <range>
+          <min>0.12</min>
+          <max>10.0</max>
+          <resolution>0.01</resolution>
+        </range>
+        <noise>
+          <type>gaussian</type>
+          <mean>0.0</mean>
+          <stddev>0.01</stddev>
+        </noise>
+      </ray>
+      <plugin name="laserscan" filename="libgazebo_ros_ray_sensor.so">
+        <ros>
+          <remapping>~/out:=scan</remapping>
+        </ros>
+        <output_type>sensor_msgs/LaserScan</output_type>
+        <frame_name>laser_link</frame_name>
+      </plugin>
+    </sensor>
+  </gazebo>
+
+  <!-- ============ 差速驱动插件（后轮驱动） ============ -->
+  <gazebo>
+    <plugin name="my_car_diff_drive" filename="libgazebo_ros_diff_drive.so">
+      <update_rate>30</update_rate>
+
+      <!-- 驱动轮 -->
+      <left_joint>rear_left_wheel_joint</left_joint>
+      <right_joint>rear_right_wheel_joint</right_joint>
+
+      <!-- 运动学参数 -->
+      <wheel_separation>0.37</wheel_separation>
+      <wheel_diameter>0.16</wheel_diameter>
+
+      <!-- 限幅 -->
+      <max_wheel_torque>20</max_wheel_torque>
+      <max_wheel_acceleration>2.0</max_wheel_acceleration>
+
+      <command_topic>cmd_vel</command_topic>
+
+      <!-- 输出 -->
+      <publish_odom>true</publish_odom>
+      <publish_odom_tf>true</publish_odom_tf>
+      <publish_wheel_tf>true</publish_wheel_tf>
+
+      <odometry_topic>odom</odometry_topic>
+      <odometry_frame>odom</odometry_frame>
+      <robot_base_frame>base_footprint</robot_base_frame>
+    </plugin>
+  </gazebo>
+
+</robot>
